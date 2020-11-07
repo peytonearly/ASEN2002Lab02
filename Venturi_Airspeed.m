@@ -14,9 +14,8 @@ Patm = (sum(VV1(2:end,1)) + sum(VV2(2:end,1)) + sum(VV3(2:end,1)) + sum(VV4(2:en
 Tatm = (sum(VV1(2:end,2)) + sum(VV2(2:end,2)) + sum(VV3(2:end,2)) + sum(VV4(2:end,2)) + sum(VV5(2:end,2)) + sum(VV6(2:end,2)) + sum(VV7(2:end,2)) + sum(VV8(2:end,2)) + sum(VV9(2:end,2)) + sum(VV10(2:end,2)) + sum(VV11(2:end,2)) + sum(VV12(2:end,2))) / (N*12);
 
 R = 8.314; %[J/mol·K]
-A1 = _______; 
-A2 = _______;
-
+A1 = 784; % in^2
+A2 = 1190; % in^2
 %%
 % Obtaining the various pressures with respect to their voltage
 for Q = 2:501
