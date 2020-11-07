@@ -3,22 +3,34 @@
 clear all
 clc
 close
-
+load('VenturiDataFile.mat')
 %%
 % Base Calculations
-N = length(VV1(2:end,1)); % Number of elements 
+N = height(VV1); % Number of elements 
 I = 500; 
-
+ VV1 = table2array(VV1);
+ VV2 = table2array(VV2);
+ VV3 = table2array(VV3);
+ VV4 = table2array(VV4);
+ VV5 = table2array(VV5);
+ VV6 = table2array(VV6);
+ VV7 = table2array(VV7);
+ VV8 = table2array(VV8);
+ VV9 = table2array(VV9);
+ VV10 = table2array(VV10);
+ VV11 = table2array(VV11);
+ VV12 = table2array(VV12);
 %average value of the atmospheric temperature and pressure 
-Patm = (sum(VV1(2:end,1)) + sum(VV2(2:end,1)) + sum(VV3(2:end,1)) + sum(VV4(2:end,1)) + sum(VV5(2:end,1)) + sum(VV6(2:end,1)) + sum(VV7(2:end,1)) + sum(VV8(2:end,1)) + sum(VV9(2:end,1)) + sum(VV10(2:end,1)) + sum(VV11(2:end,1)) + sum(VV12(2:end,1))) / (N*12);
-Tatm = (sum(VV1(2:end,2)) + sum(VV2(2:end,2)) + sum(VV3(2:end,2)) + sum(VV4(2:end,2)) + sum(VV5(2:end,2)) + sum(VV6(2:end,2)) + sum(VV7(2:end,2)) + sum(VV8(2:end,2)) + sum(VV9(2:end,2)) + sum(VV10(2:end,2)) + sum(VV11(2:end,2)) + sum(VV12(2:end,2))) / (N*12);
+Patm = (sum(VV1(:,1)) + sum(VV2(:,1)) + sum(VV3(:,1)) + sum(VV4(:,1)) + sum(VV5(:,1)) + sum(VV6(:,1)) + sum(VV7(:,1)) + sum(VV8(:,1)) + sum(VV9(:,1)) + sum(VV10(:,1)) + sum(VV11(:,1)) + sum(VV12(:,1))) / (N*12);
+Tatm = (sum(VV1(:,2)) + sum(VV2(:,2)) + sum(VV3(:,2)) + sum(VV4(:,2)) + sum(VV5(:,2)) + sum(VV6(:,2)) + sum(VV7(:,2)) + sum(VV8(:,2)) + sum(VV9(:,2)) + sum(VV10(:,2)) + sum(VV11(:,2)) + sum(VV12(:,2))) / (N*12);
 
 R = 8.314; %[J/mol·K]
-A1 = 784; % in^2
-A2 = 1190; % in^2
+A1 = 42.5^2; 
+A2 = 28^2;
+
 %%
 % Obtaining the various pressures with respect to their voltage
-for Q = 2:501
+for Q = 1:500
 	%VOLTAGE = 0.5
     VD5(:,1) = VV3(Q,3) + VV4(Q,3) + VV7(Q,3) + VV8(Q,3) + VV11(Q,3) + VV12(Q,3);
     VD5(:,2) = VV3(Q,4) + VV4(Q,4) + VV7(Q,4) + VV8(Q,4) + VV11(Q,4) + VV12(Q,4);
@@ -127,5 +139,6 @@ title('Venturi Airspeed vs Voltage');
 
 %%
 %Function
-VenturiTubeConfig = @(deltaP, R, Tatm, Patm, A1, A2) sqrt((2 * deltaP * R * Tatm) / (Patm * (1 - (A2/A1)^2)));
-
+function output = VenturiTubeConfig(deltaP, R, Tatm, Patm, A1, A2) 
+    output = sqrt((2 * deltaP * R * Tatm) / (Patm * (1 - (A2/A1)^2)));
+end
