@@ -3,6 +3,7 @@
 clear all
 clc
 close
+%% Load variables
 load('VenturiDataFile.mat')
 %%
 % Base Calculations
@@ -129,13 +130,9 @@ S_V10 = VenturiTubeConfig(dP, R, Tatm,Patm,A1,A2);
 
 %%
 % Airspeed vs. Voltage
-Voltage = [0.5 2 2.5 4 4.5 6 6.5 8 8.5 10];
-Airspeed = [S_V2 S_V2 S_V2D5 S_V4 S_V4D5 S_V6 S_V6D5 S_V8 S_V8D5 S_V10];
-
-plot(Voltage, Airspeed);
-xlabel('Voltage [V]');
-ylabel('Airspeed [m/s]');
-title('Venturi Airspeed vs Voltage');
+VoltageVenturi = [0.5 2 2.5 4 4.5 6 6.5 8 8.5 10];
+AirspeedVenturi = [S_V2 S_V2 S_V2D5 S_V4 S_V4D5 S_V6 S_V6D5 S_V8 S_V8D5 S_V10];
+save('VenturiAirspeedData.mat', 'VoltageVenturi', 'AirspeedVenturi');
 
 %%
 %Function
