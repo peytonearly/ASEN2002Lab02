@@ -136,6 +136,6 @@ save('PitotAirspeedData.mat', 'VoltagePitot', 'AirspeedPitot');
 %%
 %Function
 function output = BernoulliEq(deltaP, R, Tatm, Patm)
-     output = sqrt(2*deltaP*((R*Tatm)/Patm));
+     output = sqrt(2.*deltaP.*((R.*Tatm)./Patm));
 end 
 

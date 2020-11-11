@@ -137,5 +137,5 @@ save('VenturiAirspeedData.mat', 'VoltageVenturi', 'AirspeedVenturi');
 %%
 %Function
 function output = VenturiTubeConfig(deltaP, R, Tatm, Patm, A1, A2) 
-    output = sqrt((2 * deltaP * R * Tatm) / (Patm * (1 - (A2/A1)^2)));
+    output = sqrt((2 .* deltaP .* R .* Tatm) ./ (Patm .* (1 - (A2./A1).^2)));
 end
