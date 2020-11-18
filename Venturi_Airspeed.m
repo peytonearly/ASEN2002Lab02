@@ -139,22 +139,18 @@ E(10) = error(A,Tatm,Patm,ratio);
 VoltageVenturi = [0.5 2 2.5 4 4.5 6 6.5 8 8.5 10];
 AirspeedVenturi = [S_V2 S_V2 S_V2D5 S_V4 S_V4D5 S_V6 S_V6D5 S_V8 S_V8D5 S_V10];
 
-<<<<<<< Updated upstream
 errorbar(Voltage, Airspeed,E);
 xlabel('Voltage [V]');
 ylabel('Airspeed [m/s]');
 title('Venturi Airspeed vs Voltage');
-=======
+
 save('VenturiAirspeedData.mat', 'VoltageVenturi', 'AirspeedVenturi');
 
 % plot(Voltage, Airspeed);
 % xlabel('Voltage [V]');
 % ylabel('Airspeed [m/s]');
 % title('Venturi Airspeed vs Voltage');
->>>>>>> Stashed changes
-
-
-%%
+%% Functions
 function dv = error(p,Tatm,Patm,ratio)
     R = 8.314;%[J/mol.K]
     delT = 1/4;%[deg C]
