@@ -1,6 +1,7 @@
 %% Cleaning
 clear all;
 clc;
+warning('off');
 %% Windtunnel Data
 % Venturi Tube to Pressure Transducer
 VT2PT = dir("AeroLabWindtunnelCalibration\VelocityVoltageData\VenturiTubeToPressureTransducer\");

@@ -69,82 +69,82 @@ A = mean(VD5(:,1)); % Airspeed Differential Pressure [Pa]
 %B = mean(VD5(:,2)); % Aux Differential Pressure [Pa]
 %dP = A - B;   %delta P
 S_VD5 = VenturiTubeConfig(A, R, Tatm,Patm,ratio);
-E(1) = error(A,Tatm,Patm,ratio);
+EVenturiAir(1) = error(A,Tatm,Patm,ratio);
 
 %VOLTAGE = 2
 A = mean(V2(:,1));
 %B = mean(V2(:,2));
 %dP = A - B;   %delta P
 S_V2 = VenturiTubeConfig(A, R, Tatm,Patm,ratio);
-E(2) = error(A,Tatm,Patm,ratio);
+EVenturiAir(2) = error(A,Tatm,Patm,ratio);
 
 %VOLTAGE = 2.5
 A = mean(V2D5(:,1));
 %B = mean(V2D5(:,2));
 %dP = A - B;   %delta P
 S_V2D5 = VenturiTubeConfig(A, R, Tatm,Patm,ratio);
-E(3) = error(A,Tatm,Patm,ratio);
+EVenturiAir(3) = error(A,Tatm,Patm,ratio);
 
 %VOLTAGE = 4
 A = mean(V4(:,1));
 %B = mean(V4(:,2));
 %dP = A - B;   %delta P
 S_V4 = VenturiTubeConfig(A, R, Tatm,Patm,ratio);
-E(4) = error(A,Tatm,Patm,ratio);
+EVenturiAir(4) = error(A,Tatm,Patm,ratio);
 
 %VOLTAGE = 4.5
 A = mean(V4D5(:,1));
 %B = mean(V4D5(:,2));
 %dP = A - B;   %delta P
 S_V4D5 = VenturiTubeConfig(A, R, Tatm,Patm,ratio);
-E(5) = error(A,Tatm,Patm,ratio);
+EVenturiAir(5) = error(A,Tatm,Patm,ratio);
 
 %VOLTAGE = 6 
 A = mean(V6(:,1));
 %B = mean(V6(:,2));
 %dP = A - B;   %delta P
 S_V6 = VenturiTubeConfig(A, R, Tatm,Patm,ratio);
-E(6) = error(A,Tatm,Patm,ratio);
+EVenturiAir(6) = error(A,Tatm,Patm,ratio);
 
 %VOLTAGE = 6.5
 A = mean(V6D5(:,1));
 %B = mean(V6D5(:,2));
 %dP = A - B;   %delta P
 S_V6D5 = VenturiTubeConfig(A, R, Tatm,Patm,ratio);
-E(7) = error(A,Tatm,Patm,ratio);
+EVenturiAir(7) = error(A,Tatm,Patm,ratio);
 
 %VOLTAGE = 8
 A = mean(V8(:,1));
 %B = mean(V8(:,2));
 %dP = A - B;   %delta P
 S_V8 = VenturiTubeConfig(A, R, Tatm,Patm,ratio);
-E(8) = error(A,Tatm,Patm,ratio);
+EVenturiAir(8) = error(A,Tatm,Patm,ratio);
 
 %VOLTAGE = 8.5
 A = mean(V8D5(:,1));
 %B = mean(V8D5(:,2));
 %dP = A - B;   %delta P
 S_V8D5 = VenturiTubeConfig(A, R, Tatm,Patm,ratio);
-E(9) = error(A,Tatm,Patm,ratio);
+EVenturiAir(9) = error(A,Tatm,Patm,ratio);
 
 %VOLTAGE = 10
 A = mean(V10(:,1));
 %B = mean(V10(:,2));
 %dP = A - B;   %delta P
 S_V10 = VenturiTubeConfig(A, R, Tatm,Patm,ratio);
-E(10) = error(A,Tatm,Patm,ratio);
+EVenturiAir(10) = error(A,Tatm,Patm,ratio);
 
 %%
 % Airspeed vs. Voltage
 VoltageVenturi = [0.5 2 2.5 4 4.5 6 6.5 8 8.5 10];
 AirspeedVenturi = [S_V2 S_V2 S_V2D5 S_V4 S_V4D5 S_V6 S_V6D5 S_V8 S_V8D5 S_V10];
 
-errorbar(Voltage, Airspeed,E);
-xlabel('Voltage [V]');
-ylabel('Airspeed [m/s]');
-title('Venturi Airspeed vs Voltage');
+% errorbar(VoltageVenturi, AirspeedVenturi ,EVenturiAir);
+% xlabel('Voltage [V]');
+% ylabel('Airspeed [m/s]');
+% title('Venturi Airspeed vs Voltage');
 
-save('VenturiAirspeedData.mat', 'VoltageVenturi', 'AirspeedVenturi');
+save('VenturiAirspeedData.mat', 'VoltageVenturi', 'AirspeedVenturi', 'EVenturiAir');
 
 % plot(Voltage, Airspeed);
 % xlabel('Voltage [V]');
@@ -163,7 +163,6 @@ function dv = error(p,Tatm,Patm,ratio)
     dv = sqrt(((dvdp*delp)^2)+((dvdTatm*delT)^2)+((dvdPatm*delPatm)^2));
 end
 
-%Function
 function output = VenturiTubeConfig(deltaP, R, Tatm, Patm, ratio) 
     output = sqrt((2 * deltaP * R * Tatm) / (Patm * (1 - (ratio)^2)));
 end

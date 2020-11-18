@@ -4,7 +4,7 @@ clc;
 
 %% Load Water manometer data
 load('WaterManometerDataFile');
-
+ratio = 1/9.5;
 %% Organize table data
 WMR.Properties.VariableNames = {'Timestamp', 'GroupNumber', 'TubeType', 'Voltage1', 'HeightVoltage1', 'Voltage2', 'HeightVoltage2', 'Voltage3', 'HeightVoltage3', 'Voltage4', 'HeightVoltage4', 'Voltage5', 'HeightVoltage5'};
 WMR.TubeType = categorical(WMR.TubeType);
@@ -116,5 +116,33 @@ TatmP = (sum(PP1(:,2)) + sum(PP2(:,2)) + sum(PP3(:,2)) + sum(PP4(:,2)) + sum(PP5
 %% Calculate airspeed using Bernoulli's equation
 finalAvg.AirspeedP = sqrt(2 * finalAvg.PgageP * ((R * TatmP) / PatmP));
 finalAvg.AirspeedV = sqrt(2 * finalAvg.PgageV * ((R * TatmV) / PatmV));
+EVenturiWater = errorVent(finalAvg.PgageV, TatmV, PatmV, ratio);
+EVenturiWater = EVenturiWater(:, end);
+EPitotWater = errorPitot(finalAvg.PgageP, TatmP, PatmP);
+EPitotWater = EPitotWater(:, end);
 
-save('WaterAirspeedData.mat', 'finalAvg');
+save('WaterAirspeedData.mat', 'finalAvg', 'EVenturiWater', 'EPitotWater');
+%% Functions
+function dv = errorVent(p,Tatm,Patm,ratio)
+    R = 8.314;%[J/mol.K]
+    delT = 1/4;%[deg C]
+    delp = 0.01*6894.76; %[pa]
+    delPatm = 3.75;%[1.5% of 250]
+    
+    dvdp = ((R*Tatm)/(Patm*(1-((ratio)^2))))*sqrt((Patm*(1-((ratio)^2)))/(2*p*R*Tatm));
+    dvdTatm = ((p*R)/(Patm*(1-((ratio)^2))))*sqrt((Patm*(1-((ratio)^2)))/(2*p*R*Tatm));
+    dvdPatm = (sqrt((Patm*(1-((ratio)^2)))/(2*p*R*Tatm)))*((p*R*Tatm)/(1-((ratio)^2)))/(-(Patm^2));
+    dv = sqrt(((dvdp*delp).^2)+((dvdTatm*delT).^2)+((dvdPatm*delPatm).^2));
+end
+
+function dv1 = errorPitot(p,Tatm,Patm)
+    R = 8.314;%[J/mol.K]
+    delT = 1/4;%[deg C]
+    delp = 0.01*6894.76; %[pa]
+    delPatm = 3.75;%[1.5% of 250]
+    
+    dvdp1 = ((R*Tatm)/Patm)/sqrt(2*p*((R*Tatm)/Patm));
+    dvdTatm1 = ((p*R)/Patm)/sqrt(2*p*((R*Tatm)/Patm));
+    dvdPatm1 = (-(p*R*Tatm)/(Patm^2))/sqrt(2*p*((R*Tatm)/Patm));
+    dv1 = sqrt(((dvdp1*delp).^2)+((dvdTatm1*delT).^2)+((dvdPatm1*delPatm).^2));
+end
