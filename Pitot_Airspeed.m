@@ -137,13 +137,22 @@ E(10) = error(A,Tatm,Patm);
 
 %%
 % Airspeed vs. Voltage
-Voltage = [1 1.5 3 3.5 5 5.5 7 7.5 9 9.5];
-Airspeed = [S_P1 S_P1D5 S_P3 S_P3D5 S_P5 S_P5D5 S_P7 S_P7D5 S_P9 S_P9D5];
+VoltagePitot = [1 1.5 3 3.5 5 5.5 7 7.5 9 9.5];
+AirspeedPitot = [S_P1 S_P1D5 S_P3 S_P3D5 S_P5 S_P5D5 S_P7 S_P7D5 S_P9 S_P9D5];
 
+<<<<<<< Updated upstream
 errorbar(Voltage, Airspeed,E);
 xlabel('Voltage [V]');
 ylabel('Airspeed [m/s]');
 title('Pitot Airspeed vs Voltage');
+=======
+save('PitotAirspeedData.mat', 'VoltagePitot', 'AirspeedPitot');
+
+% plot(VoltagePitot, AirspeedPitot);
+% xlabel('Voltage [V]');
+% ylabel('Airspeed [m/s]');
+% title('Pitot Airspeed vs Voltage');
+>>>>>>> Stashed changes
 
 %%
 function dv1 = error(p,Tatm,Patm)
