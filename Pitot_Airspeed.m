@@ -3,8 +3,6 @@
 clear all
 clc
 close
-
-%% Load variables
 load('PitotProbeDataFile.mat')
 %%
 % Base Calculations
@@ -33,109 +31,113 @@ R = 8.314; %[J/mol·K]
 for Q = 1:500
 	%VOLTAGE = 1.5
     P1D5(:,1) = PP3(Q,3) + PP4(Q,3) + PP7(Q,3) + PP8(Q,3) + PP11(Q,3) + PP12(Q,3);
-    P1D5(:,2) = PP3(Q,4) + PP4(Q,4) + PP7(Q,4) + PP8(Q,4) + PP11(Q,4) + PP12(Q,4);
+    %P1D5(:,2) = PP3(Q,4) + PP4(Q,4) + PP7(Q,4) + PP8(Q,4) + PP11(Q,4) + PP12(Q,4);
     %VOLTAGE = 1
     P1(:,1) = PP1(Q,3) + PP2(Q,3) + PP5(Q,3) + PP6(Q,3) + PP9(Q,3) + PP9(Q,3);
-    P1(:,2) = PP1(Q,3) + PP2(Q,4) + PP5(Q,4) + PP6(Q,4) + PP9(Q,4) + PP9(Q,4);
+    %P1(:,2) = PP1(Q,3) + PP2(Q,4) + PP5(Q,4) + PP6(Q,4) + PP9(Q,4) + PP9(Q,4);
     
     %VOLTAGE = 3.5
     P3D5(:,1) = PP3(Q+I,3) + PP4(Q+I,3) + PP7(Q+I,3) + PP8(Q+I,3) + PP11(Q+I,3) + PP12(Q+I,3);
-    P3D5(:,2) = PP3(Q+I,4) + PP4(Q+I,4) + PP7(Q+I,4) + PP8(Q+I,4) + PP11(Q+I,4) + PP12(Q+I,4);
+   % P3D5(:,2) = PP3(Q+I,4) + PP4(Q+I,4) + PP7(Q+I,4) + PP8(Q+I,4) + PP11(Q+I,4) + PP12(Q+I,4);
     %VOLTAGE = 3
     P3(:,1) = PP1(Q+I,3) + PP2(Q+I,3) + PP5(Q+I,3) + PP6(Q+I,3) + PP9(Q+I,3) + PP9(Q+I,3);
-    P3(:,2) = PP1(Q+I,3) + PP2(Q+I,4) + PP5(Q+I,4) + PP6(Q+I,4) + PP9(Q+I,4) + PP9(Q+I,4);
+    %P3(:,2) = PP1(Q+I,3) + PP2(Q+I,4) + PP5(Q+I,4) + PP6(Q+I,4) + PP9(Q+I,4) + PP9(Q+I,4);
    
     %VOLTAGE = 5.5
     P5D5(:,1) = PP3(Q+2*I,3) + PP4(Q+2*I,3) + PP7(Q+2*I,3) + PP8(Q+2*I,3) + PP11(Q+2*I,3) + PP12(Q+2*I,3);
-    P5D5(:,2) = PP3(Q+2*I,4) + PP4(Q+2*I,4) + PP7(Q+2*I,4) + PP8(Q+2*I,4) + PP11(Q+2*I,4) + PP12(Q+2*I,4);
+    %P5D5(:,2) = PP3(Q+2*I,4) + PP4(Q+2*I,4) + PP7(Q+2*I,4) + PP8(Q+2*I,4) + PP11(Q+2*I,4) + PP12(Q+2*I,4);
     %VOLTAGE = 5
     P5(:,1) = PP1(Q+2*I,3) + PP2(Q+2*I,3) + PP5(Q+2*I,3) + PP6(Q+2*I,3) + PP9(Q+2*I,3) + PP9(Q+2*I,3);
-    P5(:,2) = PP1(Q+2*I,3) + PP2(Q+2*I,4) + PP5(Q+2*I,4) + PP6(Q+2*I,4) + PP9(Q+2*I,4) + PP9(Q+2*I,4);
+    %P5(:,2) = PP1(Q+2*I,3) + PP2(Q+2*I,4) + PP5(Q+2*I,4) + PP6(Q+2*I,4) + PP9(Q+2*I,4) + PP9(Q+2*I,4);
 
     %VOLTAGE = 7.5
     P7D5(:,1) = PP3(Q+3*I,3) + PP4(Q+3*I,3) + PP7(Q+3*I,3) + PP8(Q+3*I,3) + PP11(Q+3*I,3) + PP12(Q+3*I,3);
-    P7D5(:,2) = PP3(Q+3*I,4) + PP4(Q+3*I,4) + PP7(Q+3*I,4) + PP8(Q+3*I,4) + PP11(Q+3*I,4) + PP12(Q+3*I,4);
+    %P7D5(:,2) = PP3(Q+3*I,4) + PP4(Q+3*I,4) + PP7(Q+3*I,4) + PP8(Q+3*I,4) + PP11(Q+3*I,4) + PP12(Q+3*I,4);
     %VOLTAGE = 7
     P7(:,1) = PP1(Q+3*I,3) + PP2(Q+3*I,3) + PP5(Q+3*I,3) + PP6(Q+3*I,3) + PP9(Q+3*I,3) + PP9(Q+3*I,3);
-    P7(:,2) = PP1(Q+3*I,3) + PP2(Q+3*I,4) + PP5(Q+3*I,4) + PP6(Q+3*I,4) + PP9(Q+3*I,4) + PP9(Q+3*I,4);
+    %P7(:,2) = PP1(Q+3*I,3) + PP2(Q+3*I,4) + PP5(Q+3*I,4) + PP6(Q+3*I,4) + PP9(Q+3*I,4) + PP9(Q+3*I,4);
 
     %VOLTAGE = 9.5
     P9D5(:,1) = PP3(Q+4*I,3) + PP4(Q+4*I,3) + PP7(Q+4*I,3) + PP8(Q+4*I,3) + PP11(Q+4*I,3) + PP12(Q+4*I,3);
-    P9D5(:,2) = PP3(Q+4*I,4) + PP4(Q+4*I,4) + PP7(Q+4*I,4) + PP8(Q+4*I,4) + PP11(Q+4*I,4) + PP12(Q+4*I,4);
+    %P9D5(:,2) = PP3(Q+4*I,4) + PP4(Q+4*I,4) + PP7(Q+4*I,4) + PP8(Q+4*I,4) + PP11(Q+4*I,4) + PP12(Q+4*I,4);
     %VOLTAGE = 9
     P9(:,1) = PP1(Q+4*I,3) + PP2(Q+4*I,3) + PP5(Q+4*I,3) + PP6(Q+4*I,3) + PP9(Q+4*I,3) + PP9(Q+4*I,3);
-    P9(:,2) = PP1(Q+4*I,3) + PP2(Q+4*I,4) + PP5(Q+4*I,4) + PP6(Q+4*I,4) + PP9(Q+4*I,4) + PP9(Q+4*I,4);
+    %P9(:,2) = PP1(Q+4*I,3) + PP2(Q+4*I,4) + PP5(Q+4*I,4) + PP6(Q+4*I,4) + PP9(Q+4*I,4) + PP9(Q+4*I,4);
 end
 
 %VOLTAGE = 1.5
 A = mean(P1D5(:,1)); % Airspeed Differential Pressure [Pa]
-B = mean(P1D5(:,2)); % Aux Differential Pressure [Pa]
-dP = A - B;   %delta P
-S_P1D5 = BernoulliEq(dP, R, Tatm,Patm);
+%B = mean(P1D5(:,2)); % Aux Differential Pressure [Pa]
+%dP = A - B;   %delta P
+S_P1D5 = BernoulliEq(A, R, Tatm,Patm);
 
 %VOLTAGE = 1
 A = mean(P1(:,1));
-B = mean(P1(:,2));
-dP = A - B;   %delta P
-S_P1 = BernoulliEq(dP, R, Tatm,Patm);
+%B = mean(P1(:,2));
+%dP = A - B;   %delta P
+S_P1 = BernoulliEq(A, R, Tatm,Patm);
 
 %VOLTAGE = 3.5
 A = mean(P3D5(:,1));
-B = mean(P3D5(:,2));
-dP = A - B;   %delta P
-S_P3D5 = BernoulliEq(dP, R, Tatm,Patm);
+%B = mean(P3D5(:,2));
+%dP = A - B;   %delta P
+S_P3D5 = BernoulliEq(A, R, Tatm,Patm);
 
 %VOLTAGE = 3
 A = mean(P3(:,1));
-B = mean(P3(:,2));
-dP = A - B;   %delta P
-S_P3 = BernoulliEq(dP, R, Tatm,Patm);
+%B = mean(P3(:,2));
+%dP = A - B;   %delta P
+S_P3 = BernoulliEq(A, R, Tatm,Patm);
 
 %VOLTAGE = 5.5
 A = mean(P5D5(:,1));
-B = mean(P5D5(:,2));
-dP = A - B;   %delta P
-S_P5D5 = BernoulliEq(dP, R, Tatm,Patm);
+%B = mean(P5D5(:,2));
+%dP = A - B;   %delta P
+S_P5D5 = BernoulliEq(A, R, Tatm,Patm);
 
 %VOLTAGE = 5
 A = mean(P5(:,1));
-B = mean(P5(:,2));
-dP = A - B;   %delta P
-S_P5 = BernoulliEq(dP, R, Tatm,Patm);
+%B = mean(P5(:,2));
+%dP = A - B;   %delta P
+S_P5 = BernoulliEq(A, R, Tatm,Patm);
 
 %VOLTAGE = 7.5
 A = mean(P7D5(:,1));
-B = mean(P7D5(:,2));
-dP = A - B;   %delta P
-S_P7D5 = BernoulliEq(dP, R, Tatm,Patm);
+%B = mean(P7D5(:,2));
+%dP = A - B;   %delta P
+S_P7D5 = BernoulliEq(A, R, Tatm,Patm);
 
 %VOLTAGE = 7
 A = mean(P7(:,1));
-B = mean(P7(:,2));
-dP = A - B;   %delta P
-S_P7 = BernoulliEq(dP, R, Tatm,Patm);
+%B = mean(P7(:,2));
+%dP = A - B;   %delta P
+S_P7 = BernoulliEq(A, R, Tatm,Patm);
 
 %VOLTAGE = 9.5
 A = mean(P9D5(:,1));
-B = mean(P9D5(:,2));
-dP = A - B;   %delta P
-S_P9D5 = BernoulliEq(dP, R, Tatm,Patm);
+%B = mean(P9D5(:,2));
+%dP = A - B;   %delta P
+S_P9D5 = BernoulliEq(A, R, Tatm,Patm);
 
 %VOLTAGE = 9
 A = mean(P9(:,1));
-B = mean(P9(:,2));
-dP = A - B;   %delta P
-S_P9 = BernoulliEq(dP, R, Tatm,Patm);
+%B = mean(P9(:,2));
+%dP = A - B;   %delta P
+S_P9 = BernoulliEq(A, R, Tatm,Patm);
 
 %%
 % Airspeed vs. Voltage
-VoltagePitot = [1 1.5 3 3.5 5 5.5 7 7.5 9 9.5];
-AirspeedPitot = [S_P1 S_P1D5 S_P3 S_P3D5 S_P5 S_P5D5 S_P7 S_P7D5 S_P9 S_P9D5];
-save('PitotAirspeedData.mat', 'VoltagePitot', 'AirspeedPitot');
+Voltage = [1 1.5 3 3.5 5 5.5 7 7.5 9 9.5];
+Airspeed = [S_P1 S_P1D5 S_P3 S_P3D5 S_P5 S_P5D5 S_P7 S_P7D5 S_P9 S_P9D5];
+
+plot(Voltage, Airspeed);
+xlabel('Voltage [V]');
+ylabel('Airspeed [m/s]');
+title('Pitot Airspeed vs Voltage');
 
 %%
 %Function
 function output = BernoulliEq(deltaP, R, Tatm, Patm)
-     output = sqrt(2.*deltaP.*((R.*Tatm)./Patm));
+     output = sqrt(2*deltaP*((R*Tatm)/Patm));
 end 
 
