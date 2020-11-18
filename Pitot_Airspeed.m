@@ -70,72 +70,93 @@ A = mean(P1D5(:,1)); % Airspeed Differential Pressure [Pa]
 %B = mean(P1D5(:,2)); % Aux Differential Pressure [Pa]
 %dP = A - B;   %delta P
 S_P1D5 = BernoulliEq(A, R, Tatm,Patm);
+E(1) = error(A,Tatm,Patm);
 
 %VOLTAGE = 1
 A = mean(P1(:,1));
 %B = mean(P1(:,2));
 %dP = A - B;   %delta P
 S_P1 = BernoulliEq(A, R, Tatm,Patm);
+E(2) = error(A,Tatm,Patm);
 
 %VOLTAGE = 3.5
 A = mean(P3D5(:,1));
 %B = mean(P3D5(:,2));
 %dP = A - B;   %delta P
 S_P3D5 = BernoulliEq(A, R, Tatm,Patm);
+E(3) = error(A,Tatm,Patm);
 
 %VOLTAGE = 3
 A = mean(P3(:,1));
 %B = mean(P3(:,2));
 %dP = A - B;   %delta P
 S_P3 = BernoulliEq(A, R, Tatm,Patm);
+E(4) = error(A,Tatm,Patm);
 
 %VOLTAGE = 5.5
 A = mean(P5D5(:,1));
 %B = mean(P5D5(:,2));
 %dP = A - B;   %delta P
 S_P5D5 = BernoulliEq(A, R, Tatm,Patm);
+E(5) = error(A,Tatm,Patm);
 
 %VOLTAGE = 5
 A = mean(P5(:,1));
 %B = mean(P5(:,2));
 %dP = A - B;   %delta P
 S_P5 = BernoulliEq(A, R, Tatm,Patm);
+E(6) = error(A,Tatm,Patm);
 
 %VOLTAGE = 7.5
 A = mean(P7D5(:,1));
 %B = mean(P7D5(:,2));
 %dP = A - B;   %delta P
 S_P7D5 = BernoulliEq(A, R, Tatm,Patm);
+E(7) = error(A,Tatm,Patm);
 
 %VOLTAGE = 7
 A = mean(P7(:,1));
 %B = mean(P7(:,2));
 %dP = A - B;   %delta P
 S_P7 = BernoulliEq(A, R, Tatm,Patm);
+E(8) = error(A,Tatm,Patm);
 
 %VOLTAGE = 9.5
 A = mean(P9D5(:,1));
 %B = mean(P9D5(:,2));
 %dP = A - B;   %delta P
 S_P9D5 = BernoulliEq(A, R, Tatm,Patm);
+E(9) = error(A,Tatm,Patm);
 
 %VOLTAGE = 9
 A = mean(P9(:,1));
 %B = mean(P9(:,2));
 %dP = A - B;   %delta P
 S_P9 = BernoulliEq(A, R, Tatm,Patm);
+E(10) = error(A,Tatm,Patm);
 
 %%
 % Airspeed vs. Voltage
 Voltage = [1 1.5 3 3.5 5 5.5 7 7.5 9 9.5];
 Airspeed = [S_P1 S_P1D5 S_P3 S_P3D5 S_P5 S_P5D5 S_P7 S_P7D5 S_P9 S_P9D5];
 
-plot(Voltage, Airspeed);
+errorbar(Voltage, Airspeed,E);
 xlabel('Voltage [V]');
 ylabel('Airspeed [m/s]');
 title('Pitot Airspeed vs Voltage');
 
 %%
+function dv1 = error(p,Tatm,Patm)
+    R = 8.314;%[J/mol.K]
+    delT = 1/4;%[deg C]
+    delp = 0.01*6894.76; %[pa]
+    delPatm = 3.75;%[1.5% of 250]
+    
+    dvdp1 = ((R*Tatm)/Patm)/sqrt(2*p*((R*Tatm)/Patm));
+    dvdTatm1 = ((p*R)/Patm)/sqrt(2*p*((R*Tatm)/Patm));
+    dvdPatm1 = (-(p*R*Tatm)/(Patm^2))/sqrt(2*p*((R*Tatm)/Patm));
+    dv1 = sqrt(((dvdp1*delp)^2)+((dvdTatm1*delT)^2)+((dvdPatm1*delPatm)^2));
+end
 %Function
 function output = BernoulliEq(deltaP, R, Tatm, Patm)
      output = sqrt(2*deltaP*((R*Tatm)/Patm));
