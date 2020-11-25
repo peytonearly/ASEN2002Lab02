@@ -32,13 +32,38 @@ for i = minAngle:maxAngle
     tempArr = grandArray((grandArray(:, 23) == i), :); % Create smaller array of just values containing desired angle
     airspeed = ceil(max(tempArr(:, 4))); % Calculate max airspeed at given angle
     
-    for j = 1:airspeed % Loop from 1 to highest airspeed at given angle
-        idx = find(floor(tempArr(:, 4)) == j); % Find index for values within integer
-        if (idx) % Only add to array if index contains values
-            tempArr2 = mean(tempArr(idx, :), 1);
-            avgArr = [avgArr; tempArr2];
-        end
+    idx1 = find(tempArr(:, 4) < 10);
+    idx2 = find(tempArr(:, 4) >= 10 & tempArr(:, 4) < 20);
+    idx3 = find(tempArr(:, 4) >= 20 & tempArr(:, 4) < 30);
+    idx4 = find(tempArr(:, 4) >= 30);
+    
+    if idx1
+        tempArr2 = mean(tempArr(idx1, :), 1);
+        avgArr = [avgArr; tempArr2];
     end
+    
+    if idx2 
+        tempArr2 = mean(tempArr(idx2, :), 1);
+        avgArr = [avgArr; tempArr2];
+    end
+    
+    if idx3
+        tempArr2 = mean(tempArr(idx3, :), 1);
+        avgArr = [avgArr; tempArr2];
+    end
+    
+    if idx4
+        tempArr2 = mean(tempArr(idx4, :), 1);
+        avgArr = [avgArr; tempArr2];
+    end
+    
+%     for j = 1:airspeed % Loop from 1 to highest airspeed at given angle
+%         idx = find(floor(tempArr(:, 4)) == j); % Find index for values within integer
+%         if (idx) % Only add to array if index contains values
+%             tempArr2 = mean(tempArr(idx, :), 1);
+%             avgArr = [avgArr; tempArr2];
+%         end
+%     end
 end
 
 avgArr(1, :) = [];
