@@ -37,18 +37,10 @@ end
 T = vertcat(portStruct(1).Tables, portStruct(2).Tables, portStruct(3).Tables, portStruct(4).Tables, portStruct(5).Tables, portStruct(6).Tables, portStruct(7).Tables, portStruct(8).Tables, portStruct(9).Tables, portStruct(10).Tables, portStruct(11).Tables);
 T = sortrows(T, {'Port', 'ELDProbeYAxis_mm_'});
 
-%% Plot Results
+% Only want to look for Y values <= 10
+T(T.ELDProbeYAxis_mm_ > 10, :) = [];
 for i = 1:length(portStruct)
-    subplot(3, 4, i);
-    plot(portStruct(i).Tables.ELDProbeYAxis_mm_, portStruct(i).Tables.FreestreamVelocity);
-    hold on;
-    plot(portStruct(i).Tables.ELDProbeYAxis_mm_, portStruct(i).Tables.BoundaryLayerVelocity);
-    hold off;
-    grid on;
-    title("Velocty vs Y Location - Port " + i);
-    xlabel("ELD Probe Y-Location [mm]");
-    ylabel("Velocity [m/s]");
-    legend('Freestream', 'Boundary Layer');
+   portStruct(i).Tables(portStruct(i).Tables.ELDProbeYAxis_mm_ > 10, :) = []; 
 end
 
 %% Create best fit lines
@@ -56,7 +48,7 @@ polyStruct = struct('LOBF', {}); % Initialize struct that will keep track of pol
 
 % Loop through each port
 for i = 1:length(portStruct)
-    polyStruct(i).LOBF = polyfit(portStruct(i).Tables.ELDProbeYAxis_mm_, portStruct(i).Tables.FreestreamVelocity, 2);
+    polyStruct(i).LOBF = polyfit(portStruct(i).Tables.BoundaryLayerVelocity, portStruct(i).Tables.ELDProbeYAxis_mm_, 2);
 end
 
 evalStruct = struct('Eval', {}); % Initialize struct that will keep track of polyfit calculations evaluated at each Y axis value
@@ -64,12 +56,36 @@ evalVec = zeros(length(portStruct), 1); % Initialize vector for keeping track of
 
 % Loop through each port
 for i = 1:length(polyStruct)
-    evalStruct(i).Eval = polyval(polyStruct(i).LOBF, portStruct(i).Tables.ELDProbeYAxis_mm_);
-    tempBLayer = portStruct(i).Tables.FreestreamVelocity .* 0.95;
-    evalVec(i) = evalStruct(i).Eval(find(evalStruct(i).Eval - tempBLayer >= 0, 1));
+    evalStruct(i).Eval = polyval(polyStruct(i).LOBF, portStruct(i).Tables.BoundaryLayerVelocity);
+%     tempBLayer = portStruct(i).Tables.FreestreamVelocity .* 0.95;
+%     evalVec(i) = evalStruct(i).Eval(find(evalStruct(i).Eval - tempBLayer >= 0, 1));
 end
 
-%% Plot boundary layer height vs port number
+% Calculate 95% freestream velocity
+freeS95 = zeros(length(portStruct), 1);
+for i = 1:length(portStruct)
+   freeS95(i) = mean(portStruct(i).Tables.FreestreamVelocity) * .95;
+   evalVec(i) = polyval(polyStruct(i).LOBF, freeS95(i));
+end
+
+%% Plot Results
+for i = 1:length(portStruct)
+    subplot(3, 4, i);
+    plot(portStruct(i).Tables.FreestreamVelocity, portStruct(i).Tables.ELDProbeYAxis_mm_);
+    hold on;
+    scatter(portStruct(i).Tables.BoundaryLayerVelocity, portStruct(i).Tables.ELDProbeYAxis_mm_, '.', 'MarkerEdgeAlpha', .2);
+    plot(portStruct(i).Tables.BoundaryLayerVelocity, evalStruct(i).Eval, 'k')
+    xline(freeS95(i), 'g');
+    hold off;
+    grid on;
+    title("Velocity vs Y Location - Port " + i);
+    ylabel("ELD Probe Y-Location [mm]");
+    xlabel("Velocity [m/s]");
+    ylim([0 10]);
+    legend('Freestream', 'Boundary Layer', 'Best Fit Line', '95% Freestream', 'Location', 'northwest');
+end
+
+% Plot boundary layer height vs port number
 subplot(3,4,12);
 plot(evalVec);
 grid on; grid minor;
