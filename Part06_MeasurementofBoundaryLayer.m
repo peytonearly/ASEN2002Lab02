@@ -68,6 +68,20 @@ for i = 1:length(portStruct)
    evalVec(i) = polyval(polyStruct(i).LOBF, freeS95(i));
 end
 
+%% Laminar vs Turbulent Boundary Layer Flow
+
+Re = 300;
+
+hLam = @(x) (5.2 * x) / sqrt(Re); % Laminar Equation
+hTur = @(x) (0.37 * x) / (Re ^ 0.2); % Turbulent equation
+
+evalLam = hLam(freeS95); % Calculate theoretical boundary layer heights for laminar flow
+evalTur = hTur(freeS95); % Calculate theoretical boundary layer heights for turbulent flow
+
+% Compare calculated boundary layer height to laminar and turbulent height
+lamFlow = abs(evalVec - evalLam) > abs(evalVec - evalTur);
+turFlow = ~lamFlow;
+
 %% Plot Results
 for i = 1:length(portStruct)
     subplot(3, 4, i);
@@ -88,7 +102,21 @@ end
 % Plot boundary layer height vs port number
 subplot(3,4,12);
 plot(evalVec);
+hold on;
+scatter(1:length(evalLam), evalLam);
+scatter(1:length(evalTur), evalTur);
 grid on; grid minor;
 title("Boundary Layer Height Evolution");
 xlabel("Port Number")
 ylabel("Boundary Layer Thickness [mm]");
+% legend('Calculated Height', 'Laminar Height', 'Turbulent Height', 'Location', 'best');
+
+% Display laminar and turbulent comparisons
+for i = 1:length(evalVec)
+   fprintf('Port %d is ', i);
+   if lamFlow(i)
+       fprintf('Laminar \n');
+   else
+       fprintf('Turbulent \n');
+   end
+end
