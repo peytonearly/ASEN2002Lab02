@@ -83,8 +83,9 @@ lamFlow = abs(evalVec - evalLam) > abs(evalVec - evalTur);
 turFlow = ~lamFlow;
 
 %% Plot Results
+tiledlayout(3,4);
 for i = 1:length(portStruct)
-    subplot(3, 4, i);
+    nexttile;
     plot(portStruct(i).Tables.FreestreamVelocity, portStruct(i).Tables.ELDProbeYAxis_mm_);
     hold on;
     scatter(portStruct(i).Tables.BoundaryLayerVelocity, portStruct(i).Tables.ELDProbeYAxis_mm_, '.', 'MarkerEdgeAlpha', .2);
@@ -96,11 +97,12 @@ for i = 1:length(portStruct)
     ylabel("ELD Probe Y-Location [mm]");
     xlabel("Velocity [m/s]");
     ylim([0 10]);
-    legend('Freestream', 'Boundary Layer', 'Best Fit Line', '95% Freestream', 'Location', 'northwest');
 end
+lg = legend('Freestream', 'Boundary Layer', 'Best Fit Line', '95% Freestream', 'Location', 'Layout');
+lg.Position(1:2) = [.8 .2];
 
 % Plot boundary layer height vs port number
-subplot(3,4,12);
+figure();
 plot(evalVec);
 hold on;
 scatter(1:length(evalLam), evalLam);
@@ -109,7 +111,7 @@ grid on; grid minor;
 title("Boundary Layer Height Evolution");
 xlabel("Port Number")
 ylabel("Boundary Layer Thickness [mm]");
-% legend('Calculated Height', 'Laminar Height', 'Turbulent Height', 'Location', 'best');
+legend('Calculated Height', 'Laminar Height', 'Turbulent Height', 'Location', 'best');
 
 % Display laminar and turbulent comparisons
 for i = 1:length(evalVec)
@@ -120,3 +122,11 @@ for i = 1:length(evalVec)
        fprintf('Turbulent \n');
    end
 end
+
+%% Calculate velocity at end of test-section
+Ain = 12 * 12; % Area in
+Aout = (12 - (2 * 0.0393701 * evalVec(end))) * (12 - (2 * 0.0393701 * evalVec(end))); % Area out
+
+V2 = (Ain / Aout) .* portStruct(1).Tables.FreestreamVelocity; % Calculate freestream V at end
+diffV1V2 = V2 - portStruct(1).Tables.FreestreamVelocity; % Change from V1 to V2
+avgDiffV1V2 = mean(diffV1V2)

@@ -97,25 +97,25 @@ TatmV = (sum(VV1(:,2)) + sum(VV2(:,2)) + sum(VV3(:,2)) + sum(VV4(:,2)) + sum(VV5
 % Pitot data
 N = height(PP1); % Number of elements 
 I = 500; 
- PP1 = table2array(PP1);
- PP2 = table2array(PP2);
- PP3 = table2array(PP3);
- PP4 = table2array(PP4);
- PP5 = table2array(PP5);
- PP6 = table2array(PP6);
- PP7 = table2array(PP7);
- PP8 = table2array(PP8);
- PP9 = table2array(PP9);
- PP10 = table2array(PP10);
- PP11 = table2array(PP11);
- PP12 = table2array(PP12);
+PP1 = table2array(PP1);
+PP2 = table2array(PP2);
+PP3 = table2array(PP3);
+PP4 = table2array(PP4);
+PP5 = table2array(PP5);
+PP6 = table2array(PP6);
+PP7 = table2array(PP7);
+PP8 = table2array(PP8);
+PP9 = table2array(PP9);
+PP10 = table2array(PP10);
+PP11 = table2array(PP11);
+PP12 = table2array(PP12);
 %average value of the atmospheric temperature and pressure 
 PatmP = (sum(PP1(:,1)) + sum(PP2(:,1)) + sum(PP3(:,1)) + sum(PP4(:,1)) + sum(PP5(:,1)) + sum(PP6(:,1)) + sum(PP7(:,1)) + sum(PP8(:,1)) + sum(PP9(:,1)) + sum(PP9(:,1)) + sum(PP11(:,1)) + sum(PP12(:,1))) / (N*12);
 TatmP = (sum(PP1(:,2)) + sum(PP2(:,2)) + sum(PP3(:,2)) + sum(PP4(:,2)) + sum(PP5(:,2)) + sum(PP6(:,2)) + sum(PP7(:,2)) + sum(PP8(:,2)) + sum(PP9(:,2)) + sum(PP9(:,2)) + sum(PP11(:,2)) + sum(PP12(:,2))) / (N*12);
 
 %% Calculate airspeed using Bernoulli's equation
 finalAvg.AirspeedP = sqrt(2 * finalAvg.PgageP * ((R * TatmP) / PatmP));
-finalAvg.AirspeedV = sqrt(2 * finalAvg.PgageV * ((R * TatmV) / PatmV));
+finalAvg.AirspeedV = sqrt((2 * finalAvg.PgageV * R * TatmV) / (PatmV * (1 - (ratio)^2)));
 EVenturiWater = errorVent(finalAvg.PgageV, TatmV, PatmV, ratio);
 EVenturiWater = EVenturiWater(:, end);
 EPitotWater = errorPitot(finalAvg.PgageP, TatmP, PatmP);
